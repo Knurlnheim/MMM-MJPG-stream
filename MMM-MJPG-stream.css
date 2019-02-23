@@ -1,0 +1,21 @@
+.MMM-MJPG-stream .flexContent {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  display:flex;
+  overflow:hidden;
+  justify-content:center;
+}
+
+.MMM-MJPG-stream .divStream {
+max-width:50%;
+}
+
+
+.MMM-MJPG-stream .imgStream{
+     width:100%;
+     height: auto;
+     margin-left:auto;
+     margin-right:auto;
+     display:block;
+   }
