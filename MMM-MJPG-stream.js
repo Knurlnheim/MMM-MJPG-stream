@@ -16,6 +16,7 @@ Module.register('MMM-MJPG-stream', {
         Log.info('Starting module ' + this.name);
         this.url1_alive = false;
         this.url2_alive = false;
+        this.url3_alive = false;
         var self = this;
     },
 
@@ -40,6 +41,15 @@ Module.register('MMM-MJPG-stream', {
           cam.appendChild(img);
           content.appendChild(cam);
         }
+        if (this.url3_alive) {
+          var cam = document.createElement("div");
+          cam.classList.add("divStream");
+          var img = document.createElement("img");
+          img.classList.add("imgStream");
+          img.src = this.config.url3;
+          cam.appendChild(img);
+          content.appendChild(cam);
+        }
 
 
         return content;
@@ -54,9 +64,12 @@ notificationReceived: function(notification, payload) {
 	this.url1_alive =  true;
       } else if (received === "url2") {
 	this.url2_alive = true;
+      } else if (received === "url3") {
+	this.url3_alive = true;
       }
       if (this.hidden == true ) {
-        this.show(1000, {lockString: this.identifier});
+        //this.show(1000, {lockString: this.identifier});
+        this.show(1000, function() {});
         Log.info("hidden was true") ;
       } else {
         Log.info("hidden was false") ;
@@ -71,15 +84,23 @@ notificationReceived: function(notification, payload) {
 	this.url1_alive = false;
       } else if (received === "url2") {
 	this.url2_alive = false;
+      } else if (received === "url3") {
+	this.url3_alive = false;
       }
       this.updateDom(fade);
-      if ( ! (this.url1_alive || this.url2_alive) ) {
-        this.hide(1000, {lockString: this.identifier});
+      if ( ! (this.url1_alive || this.url2_alive || this.url3_alive) ) {
+	//this.hide(1000, {lockString:this.identifier});
+        this.hide(1000, function() {
+		// modulehidden
+	});
         Log.info("Hide") ;
       }
     }
     if (notification==="MODULE_DOM_CREATED") {
-	this.hide(0, {lockString:this.identifier});
+        this.hide(0, function() {
+		// modulehidden
+	});
+	//this.hide(0, {lockString:this.identifier});
     }
 }
 
